@@ -107,7 +107,9 @@ class OnboardingPlatform extends React.Component {
     this.setState({progressing: true});
     // Create their first project if they don't already have one. This is a
     // no-op if they already have a project.
+    console.log('handle continue to create first project');
     await this.createFirstProject(this.props.platform);
+    console.log('finished creating first project');
     this.props.onComplete();
   };
 
