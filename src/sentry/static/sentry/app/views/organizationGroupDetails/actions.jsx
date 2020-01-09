@@ -268,17 +268,17 @@ const GroupDetailsActions = createReactClass({
           isResolved={isResolved}
           isAutoResolved={isResolved && group.statusDetails.autoResolved}
         />
+
         <IgnoreActions isIgnored={isIgnored} onUpdate={this.onUpdate} />
 
-        <div className="btn-group">
-          <a
-            className={bookmarkClassName}
-            title={t('Bookmark')}
-            onClick={this.onToggleBookmark}
-          >
-            <span className="icon-star-solid" />
-          </a>
+        <div
+          className={bookmarkClassName}
+          title={t('Bookmark')}
+          onClick={this.onToggleBookmark}
+        >
+          <span className="icon-star-solid" />
         </div>
+
         <DeleteActions
           organization={organization}
           project={project}
@@ -286,7 +286,7 @@ const GroupDetailsActions = createReactClass({
           onDiscard={this.onDiscard}
         />
 
-        <div className="btn-group">
+        {orgFeatures.has('events-v2') && (
           <Link
             className={buttonClassName}
             title={t('View in Discover')}
@@ -294,7 +294,7 @@ const GroupDetailsActions = createReactClass({
           >
             <InlineSvg src="icon-telescope" /> {t('View in Discover')}
           </Link>
-        </div>
+        )}
 
         {orgFeatures.has('shared-issues') && (
           <div className="btn-group">
