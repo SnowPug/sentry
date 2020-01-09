@@ -15,6 +15,8 @@ import GroupActions from 'app/actions/groupActions';
 import GuideAnchor from 'app/components/assistant/guideAnchor';
 import IgnoreActions from 'app/components/actions/ignore';
 import IndicatorStore from 'app/stores/indicatorStore';
+import InlineSvg from 'app/components/inlineSvg';
+import Link from 'app/components/links/link';
 import LinkWithConfirmation from 'app/components/links/linkWithConfirmation';
 import MenuItem from 'app/components/menuItem';
 import ResolveActions from 'app/components/actions/resolve';
@@ -133,6 +135,18 @@ const GroupDetailsActions = createReactClass({
     return `${protocol}//${host}${path}`;
   },
 
+  getDiscoverUrl() {
+    const {organization, group} = this.props;
+
+    return {
+      pathname: `/organizations/${organization.slug}/eventsv2/results/`,
+      query: {
+        field: ['title', 'count(id)', 'project', 'last_seen'],
+        query: `event.type:error issue.id:${group.id}`,
+      },
+    };
+  },
+
   onDelete() {
     const {group, project, organization} = this.props;
     const loadingIndicator = IndicatorStore.add(t('Delete event..'));
@@ -232,7 +246,8 @@ const GroupDetailsActions = createReactClass({
     const {group, project, organization} = this.props;
     const orgFeatures = new Set(organization.features);
 
-    let bookmarkClassName = 'group-bookmark btn btn-default btn-sm';
+    const buttonClassName = 'btn btn-default btn-sm';
+    let bookmarkClassName = `group-bookmark ${buttonClassName}`;
     if (group.isBookmarked) {
       bookmarkClassName += ' active';
     }
@@ -270,6 +285,16 @@ const GroupDetailsActions = createReactClass({
           onDelete={this.onDelete}
           onDiscard={this.onDiscard}
         />
+
+        <div className="btn-group">
+          <Link
+            className={buttonClassName}
+            title={t('View in Discover')}
+            to={this.getDiscoverUrl()}
+          >
+            <InlineSvg src="icon-telescope" /> {t('View in Discover')}
+          </Link>
+        </div>
 
         {orgFeatures.has('shared-issues') && (
           <div className="btn-group">
