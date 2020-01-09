@@ -1449,6 +1449,7 @@ dsn_from_env = os.environ.get("SENTRY_DSN")
 if dsn_from_env:
     SENTRY_SDK_CONFIG["dsn"] = dsn_from_env
     SENTRY_FRONTEND_DSN = dsn_from_env
+    SENTRY_APM_SAMPLING = 1
 
 
 # Callable to bind additional context for the Sentry SDK
