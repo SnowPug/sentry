@@ -1445,6 +1445,12 @@ def get_sentry_sdk_config():
 
 SENTRY_SDK_CONFIG = get_sentry_sdk_config()
 
+dsn_from_env = os.environ.get("SENTRY_DSN")
+if dsn_from_env:
+    SENTRY_SDK_CONFIG["dsn"] = dsn_from_env
+    SENTRY_FRONTEND_DSN = dsn_from_env
+
+
 # Callable to bind additional context for the Sentry SDK
 #
 # def get_org_context(scope, organization, **kwargs):
